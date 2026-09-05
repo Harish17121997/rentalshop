@@ -1,0 +1,68 @@
+:root {
+  /* Neutral surface & text scale */
+  --color-bg: #f7f8fa;
+  --color-surface: #ffffff;
+  --color-surface-muted: #f1f3f5;
+  --color-border: #e2e5e9;
+  --color-text: #1a1d21;
+  --color-text-muted: #5c6470;
+  --color-text-subtle: #8a919c;
+
+  /* Brand / primary */
+  --color-primary: #2454ff;
+  --color-primary-hover: #1c43d6;
+  --color-primary-muted: #eaf0ff;
+
+  /* Status semantics */
+  --color-success: #16794f;
+  --color-success-bg: #e7f7ee;
+  --color-danger: #b3261e;
+  --color-danger-bg: #fdeceb;
+  --color-warning: #a8620a;
+  --color-warning-bg: #fdf2e2;
+  --color-info: #2454ff;
+  --color-info-bg: #eaf0ff;
+
+  /* Spacing scale */
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-5: 24px;
+  --space-6: 32px;
+  --space-7: 48px;
+
+  /* Radius */
+  --radius-sm: 6px;
+  --radius-md: 10px;
+  --radius-lg: 14px;
+
+  /* Shadow */
+  --shadow-sm: 0 1px 2px rgba(16, 24, 40, 0.06);
+  --shadow-md: 0 4px 12px rgba(16, 24, 40, 0.08);
+
+  /* Typography */
+  --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+  --font-size-xs: 12px;
+  --font-size-sm: 13px;
+  --font-size-base: 14px;
+  --font-size-md: 16px;
+  --font-size-lg: 20px;
+  --font-size-xl: 28px;
+
+  /* Layout */
+  --sidebar-width: 240px;
+  --header-height: 60px;
+
+  /* Chart categorical series (fixed order — never cycled/reassigned) */
+  --chart-series-1: #2a78d6; /* blue   */
+  --chart-series-2: #eb6834; /* orange */
+  --chart-series-3: #1baf7a; /* aqua   */
+  --chart-grid: #e1e0d9;
+  --chart-axis-text: #898781;
+
+  /* Tenant info emphasis — distinct from status colors (success/warning/danger/info) */
+  --color-tenant: #4a3aa7;
+  --color-tenant-bg: #f1eefb;
+  --color-tenant-border: #ded6f5;
+}
