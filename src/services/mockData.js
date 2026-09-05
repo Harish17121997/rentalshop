@@ -17,16 +17,16 @@ export const mockUsers = [
  * current tenant — reset it whenever a tenant changes.
  */
 export const mockRentalUnits = [
-  { unitId: 'shop-1', unitName: 'Shop 1', category: 'Shop', location: 'Kadam Complex Kinwat', monthlyRent: 12000, tenantName: 'John', tenantPhone: '9876500001', tenantAadhar: '234567890123', agreementDate: '2023-01-10', status: 'Rented' },
-  { unitId: 'shop-2', unitName: 'Shop 2', category: 'Shop', location: 'Kadam Complex Kinwat', monthlyRent: 10000, tenantName: 'Raj', tenantPhone: '9876500002', tenantAadhar: '345678901234', agreementDate: '2022-06-15', status: 'Rented' },
-  { unitId: 'shop-3', unitName: 'Shop 3', category: 'Shop', location: 'Kadam Complex Kinwat', monthlyRent: 15000, tenantName: 'ABC Traders', tenantPhone: '9876500003', tenantAadhar: '456789012345', agreementDate: '2021-11-01', status: 'Rented' },
-  { unitId: 'shop-4', unitName: 'Shop 4', category: 'Shop', location: 'Kadam Complex Kinwat', monthlyRent: 11000, tenantName: 'Kumar Stores', tenantPhone: '9876500004', tenantAadhar: '567890123456', agreementDate: '2023-03-20', status: 'Rented' },
-  { unitId: 'shop-5', unitName: 'Shop 5', category: 'Shop', location: 'Kadam Complex Kinwat', monthlyRent: 9000, tenantName: 'Priya', tenantPhone: '9876500005', tenantAadhar: '678901234567', agreementDate: '2024-05-05', status: 'Rented' },
-  { unitId: 'shop-6', unitName: 'Shop 6', category: 'Shop', location: 'Kadam Complex Kinwat', monthlyRent: 13000, tenantName: '', tenantPhone: '', tenantAadhar: '', agreementDate: null, status: 'Vacant' },
-  { unitId: 'shop-7', unitName: 'Shop 7', category: 'Shop', location: 'Kadam Complex Kinwat', monthlyRent: 8000, tenantName: 'Latha', tenantPhone: '9876500007', tenantAadhar: '789012345678', agreementDate: '2022-09-18', status: 'Rented' },
-  { unitId: 'shop-8', unitName: 'Shop 8', category: 'Shop', location: 'Kadam Complex Kinwat', monthlyRent: 14000, tenantName: 'Venkat', tenantPhone: '9876500008', tenantAadhar: '890123456789', agreementDate: '2023-08-01', status: 'Rented' },
+  { unitId: 'shop-1', unitName: 'Shop 1', category: 'Shop', location: 'Kadam Complex Kinwat', monthlyRent: 3500, deposit: 0, tenantName: 'John', tenantPhone: '9876500001', tenantAadhar: '234567890123', agreementDate: '2023-01-10', status: 'Rented' },
+  { unitId: 'shop-2', unitName: 'Shop 2', category: 'Shop', location: 'Kadam Complex Kinwat', monthlyRent: 3500, deposit: 0, tenantName: 'Raj', tenantPhone: '9876500002', tenantAadhar: '345678901234', agreementDate: '2022-06-15', status: 'Rented' },
+  { unitId: 'shop-3', unitName: 'Shop 3', category: 'Shop', location: 'Kadam Complex Kinwat', monthlyRent: 3500, deposit: 0, tenantName: 'ABC Traders', tenantPhone: '9876500003', tenantAadhar: '456789012345', agreementDate: '2021-11-01', status: 'Rented' },
+  { unitId: 'shop-4', unitName: 'Shop 4', category: 'Shop', location: 'Kadam Complex Kinwat', monthlyRent: 3500, deposit: 0, tenantName: 'Kumar Stores', tenantPhone: '9876500004', tenantAadhar: '567890123456', agreementDate: '2023-03-20', status: 'Rented' },
+  { unitId: 'shop-5', unitName: 'Shop 5', category: 'Shop', location: 'Kadam Complex Kinwat', monthlyRent: 3500, deposit: 0, tenantName: 'Priya', tenantPhone: '9876500005', tenantAadhar: '678901234567', agreementDate: '2024-05-05', status: 'Rented' },
+  { unitId: 'shop-6', unitName: 'Shop 6', category: 'Shop', location: 'Kadam Complex Kinwat', monthlyRent: 3000, deposit: 0, tenantName: 'Latha', tenantPhone: '9876500007', tenantAadhar: '789012345678', agreementDate: '2022-09-18', status: 'Rented' },
+  { unitId: 'shop-7', unitName: 'Shop 7', category: 'Shop', location: 'Kadam Complex Kinwat', monthlyRent: 2000, deposit: 0, tenantName: 'Venkat', tenantPhone: '9876500008', tenantAadhar: '890123456789', agreementDate: '2023-08-01', status: 'Rented' },
+  { unitId: 'shop-8', unitName: 'Shop 8', category: 'Shop', location: 'Kadam Complex Kinwat', monthlyRent: 0, deposit: 0, tenantName: '', tenantPhone: '', tenantAadhar: '', agreementDate: null, status: 'Vacant' },
 
-  { unitId: 'house-1', unitName: 'House 1', category: 'House', location: 'Green Colony', monthlyRent: 18000, tenantName: 'Suresh', tenantPhone: '9876500006', tenantAadhar: '901234567890', agreementDate: '2021-09-12', status: 'Rented' },
+  { unitId: 'house-1', unitName: 'House 1', category: 'House', location: 'Green Colony', monthlyRent: 18000, deposit: 0, tenantName: 'Suresh', tenantPhone: '9876500006', tenantAadhar: '901234567890', agreementDate: '2021-09-12', status: 'Rented' },
 ]
 
 const CURRENT_YEAR = 2026
