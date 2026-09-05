@@ -13,7 +13,7 @@ const STOCK_TRANSACTIONS_SHEET = 'StockTransactions'
 
 const SHEET_HEADERS = {}
 SHEET_HEADERS[USERS_SHEET] = ['userId', 'name', 'username', 'password', 'role']
-SHEET_HEADERS[RENTAL_UNITS_SHEET] = ['unitId', 'unitName', 'category', 'location', 'monthlyRent', 'tenantName', 'tenantPhone', 'tenantAadhar', 'agreementDate', 'status']
+SHEET_HEADERS[RENTAL_UNITS_SHEET] = ['unitId', 'unitName', 'category', 'location', 'monthlyRent', 'deposit', 'tenantName', 'tenantPhone', 'tenantAadhar', 'agreementDate', 'status']
 SHEET_HEADERS[RENT_PAYMENTS_SHEET] = ['paymentId', 'unitId', 'month', 'year', 'expectedAmount', 'paidAmount', 'paidDate', 'paymentMethod', 'description']
 SHEET_HEADERS[STOCK_TRANSACTIONS_SHEET] = ['transactionId', 'companyName', 'type', 'quantity', 'buyPrice', 'buyAmount', 'buyDate', 'sellPrice', 'sellAmount', 'sellDate', 'broker']
 
@@ -145,6 +145,7 @@ function rentalUnitsCreate(payload) {
     category: payload.category || '',
     location: payload.location || '',
     monthlyRent: Number(payload.monthlyRent) || 0,
+    deposit: Number(payload.deposit) || 0,
     tenantName: payload.tenantName || '',
     tenantPhone: payload.tenantPhone || '',
     tenantAadhar: payload.tenantAadhar || '',

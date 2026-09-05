@@ -1,7 +1,7 @@
 <script setup>
 import { reactive, ref, computed } from 'vue'
 import BaseModal from '@/components/common/BaseModal.vue'
-import { validateForm, required, isPositiveNumber, isValidPhone, isValidAadhar } from '@/utils/validation'
+import { validateForm, required, isPositiveNumber, isNonNegativeNumber, isValidPhone, isValidAadhar } from '@/utils/validation'
 
 const props = defineProps({
   category: { type: String, default: 'House' }, // 'Shop' | 'House' — fixed for edits, chosen once for new units
@@ -15,6 +15,7 @@ const form = reactive({
   unitName: props.unit?.unitName || '',
   location: props.unit?.location || '',
   monthlyRent: props.unit?.monthlyRent ?? '',
+  deposit: props.unit?.deposit ?? '',
   status: props.unit?.status || 'Rented',
   tenantName: props.unit?.tenantName || '',
   tenantPhone: props.unit?.tenantPhone || '',
@@ -28,6 +29,7 @@ async function handleSave() {
   const { valid, errors } = validateForm(form, {
     unitName: [(v) => required(v, 'Name')],
     monthlyRent: [(v) => isPositiveNumber(v, 'Monthly rent')],
+    deposit: [(v) => (v === '' ? '' : isNonNegativeNumber(v, 'Deposit'))],
     tenantPhone: [(v) => (form.status === 'Vacant' ? '' : isValidPhone(v))],
     tenantAadhar: [(v) => (form.status === 'Vacant' ? '' : isValidAadhar(v))],
   })
@@ -40,6 +42,7 @@ async function handleSave() {
       ...form,
       category: props.unit?.category || props.category,
       monthlyRent: Number(form.monthlyRent),
+      deposit: Number(form.deposit) || 0,
       tenantName: form.status === 'Vacant' ? '' : form.tenantName,
       tenantPhone: form.status === 'Vacant' ? '' : form.tenantPhone,
       tenantAadhar: form.status === 'Vacant' ? '' : form.tenantAadhar,
@@ -68,6 +71,12 @@ async function handleSave() {
       <label for="monthlyRent">Rent</label>
       <input id="monthlyRent" v-model="form.monthlyRent" type="number" min="0" step="1" />
       <span v-if="fieldErrors.monthlyRent" class="form-error">{{ fieldErrors.monthlyRent }}</span>
+    </div>
+
+    <div class="form-field">
+      <label for="deposit">Deposit</label>
+      <input id="deposit" v-model="form.deposit" type="number" min="0" step="1" />
+      <span v-if="fieldErrors.deposit" class="form-error">{{ fieldErrors.deposit }}</span>
     </div>
 
     <div class="form-field">

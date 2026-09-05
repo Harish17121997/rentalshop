@@ -34,11 +34,14 @@ export async function apiGet(action, params = {}) {
 }
 
 export async function apiPost(action, payload = {}) {
-  const { data } = await client.post('', {
-    action,
-    token: getToken(),
-    payload,
-  })
+  // Sent as text/plain (not application/json) so the browser treats this as
+  // a "simple request" and skips the CORS preflight — Apps Script Web Apps
+  // don't implement doOptions(), so a preflighted request never completes.
+  const { data } = await client.post(
+    '',
+    JSON.stringify({ action, token: getToken(), payload }),
+    { headers: { 'Content-Type': 'text/plain;charset=utf-8' } },
+  )
   return unwrap(data)
 }
 

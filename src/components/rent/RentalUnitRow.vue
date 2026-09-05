@@ -70,6 +70,10 @@ const historyRows = computed(() =>
             <dd>{{ formatCurrency(unit.monthlyRent) }}</dd>
           </div>
           <div>
+            <dt>Deposit</dt>
+            <dd>{{ formatCurrency(unit.deposit) }}</dd>
+          </div>
+          <div>
             <dt>Status</dt>
             <dd><StatusBadge :status="unit.status" /></dd>
           </div>
