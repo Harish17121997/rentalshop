@@ -1,17 +1,5 @@
 /**
- * Google Apps Script backend for the Rental & Stock app.
- *
- * Deploy as a Web App (Deploy > New deployment > Web app):
- *   - Execute as: Me
- *   - Who has access: Anyone (or "Anyone with the link")
- * Then set VITE_GAS_API_URL in the frontend .env to the deployment URL and
- * flip USE_MOCK to false in src/services/api.js.
- *
- * Every request goes through doGet/doPost with an `action` field, mirroring
- * the action names used by src/services/*.js. Responses are always shaped as
- * { success: true, data } or { success: false, error, code } to match the
- * `unwrap()` helper in src/services/api.js.
- */
+Google Apps Script backend for the Rental & Stock app. */
 
 // ─────────────────────────────────────────────
 // CONFIG
