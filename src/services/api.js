@@ -11,6 +11,13 @@ import axios from 'axios'
 
 const GAS_BASE_URL = import.meta.env.VITE_GAS_API_URL || ''
 
+if (!GAS_BASE_URL) {
+  // Fails loudly at call time instead of silently posting to the current
+  // page's own URL (which returns a confusing 405 from the host, not from
+  // the API) whenever VITE_GAS_API_URL isn't baked into this build.
+  console.error('VITE_GAS_API_URL is not set — requests would go to the current page instead of the backend.')
+}
+
 const client = axios.create({
   baseURL: GAS_BASE_URL,
   timeout: 15000,
