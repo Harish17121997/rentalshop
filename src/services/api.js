@@ -7,13 +7,7 @@ import axios from 'axios'
  * routed through one endpoint via an `action` field rather than REST paths.
  * Services call `apiGet`/`apiPost` with an action name — swapping GAS for a
  * different backend later means changing this file only, not every service.
- *
- * USE_MOCK lets every phase before Phase 6 run against in-memory mock data
- * (see each service's `*.mock.js`) so the UI is fully usable before the real
- * backend exists.
  */
-
-export const USE_MOCK = false
 
 const GAS_BASE_URL = import.meta.env.VITE_GAS_API_URL || ''
 
