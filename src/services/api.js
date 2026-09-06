@@ -9,14 +9,12 @@ import axios from 'axios'
  * different backend later means changing this file only, not every service.
  */
 
-const GAS_BASE_URL = import.meta.env.VITE_GAS_API_URL || ''
+// Fallback covers deployments where the host's env var configuration isn't
+// reliably reaching the Vite build (seen on Vercel) — this URL is a public
+// Web App endpoint, not a secret, so hardcoding it here is safe.
+const FALLBACK_GAS_API_URL = 'https://script.google.com/macros/s/AKfycbxvLMEgDpxajZ3-SQ6sXMrGiMEiSJvJgiVO51eIQNi-rxMJ_6l-P9Paa6DNvgGeO-LyWw/exec'
 
-if (!GAS_BASE_URL) {
-  // Fails loudly at call time instead of silently posting to the current
-  // page's own URL (which returns a confusing 405 from the host, not from
-  // the API) whenever VITE_GAS_API_URL isn't baked into this build.
-  console.error('VITE_GAS_API_URL is not set — requests would go to the current page instead of the backend.')
-}
+const GAS_BASE_URL = import.meta.env.VITE_GAS_API_URL || FALLBACK_GAS_API_URL
 
 const client = axios.create({
   baseURL: GAS_BASE_URL,
