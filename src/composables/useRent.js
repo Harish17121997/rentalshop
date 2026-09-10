@@ -1,6 +1,6 @@
 import { ref } from 'vue'
 import { listRentalUnits, createRentalUnit, updateRentalUnit } from '@/services/rentalUnitService'
-import { listRentPayments, listPaymentHistory, recordPayment } from '@/services/rentService'
+import { listRentPayments, listPaymentHistory, recordPayment, updatePayment } from '@/services/rentService'
 import { derivePaymentStatus, daysOverdue, pendingRent } from '@/utils/calculations'
 import { currentMonth, currentYear, parseISODate } from '@/utils/dates'
 
@@ -88,6 +88,21 @@ export function useRent() {
     }
   }
 
+  /** Corrects a previously recorded payment (wrong amount/date/etc.), then refreshes both the list and that unit's history. */
+  async function editEntry(payment, changes, viewedPeriod = {}) {
+    await updatePayment(payment.paymentId, {
+      paidAmount: changes.amount,
+      paidDate: changes.date,
+      paymentMethod: changes.method,
+      description: changes.description,
+    })
+
+    await loadUnits({ month: viewedPeriod.month ?? currentMonth(), year: viewedPeriod.year ?? currentYear() })
+    if (historyByUnit.value[payment.unitId]) {
+      await loadHistory(payment.unitId)
+    }
+  }
+
   return {
     loading,
     errorMessage,
@@ -98,5 +113,6 @@ export function useRent() {
     addUnit,
     editUnit,
     addEntry,
+    editEntry,
   }
 }

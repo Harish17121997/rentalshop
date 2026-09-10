@@ -17,3 +17,8 @@ export async function listPaymentHistory(unitId) {
 export async function recordPayment({ unitId, expectedAmount, month, year, amount, date, method, description }) {
   return apiPost('rent.recordPayment', { unitId, expectedAmount, month, year, amount, date, method, description })
 }
+
+/** Directly overwrites a payment's fields — use to correct a wrongly entered amount/date/method. */
+export async function updatePayment(paymentId, { paidAmount, paidDate, paymentMethod, description }) {
+  return apiPost('rent.updatePayment', { paymentId, paidAmount, paidDate, paymentMethod, description })
+}

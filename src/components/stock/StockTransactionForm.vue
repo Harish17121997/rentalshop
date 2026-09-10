@@ -5,21 +5,27 @@ import { validateForm, required, isPositiveNumber } from '@/utils/validation'
 import { todayISO } from '@/utils/calculations'
 import { formatCurrency } from '@/utils/currency'
 
+const props = defineProps({
+  transaction: { type: Object, default: null }, // pass an existing transaction to edit it; omit to add a new one
+})
 const emit = defineEmits(['close', 'save'])
 
+const isEdit = computed(() => Boolean(props.transaction))
+
 const form = reactive({
-  companyName: '',
-  type: 'IPO',
-  quantity: '',
-  buyPrice: '',
-  buyDate: todayISO(),
-  broker: '',
-  alreadySold: false,
-  sellPrice: '',
-  sellDate: todayISO(),
+  companyName: props.transaction?.companyName || '',
+  type: props.transaction?.type || 'IPO',
+  quantity: props.transaction?.quantity ?? '',
+  buyPrice: props.transaction?.buyPrice ?? '',
+  buyDate: props.transaction?.buyDate || todayISO(),
+  broker: props.transaction?.broker || '',
+  alreadySold: Boolean(props.transaction?.sellDate),
+  sellPrice: props.transaction?.sellPrice ?? '',
+  sellDate: props.transaction?.sellDate || todayISO(),
 })
 const fieldErrors = ref({})
 const saving = ref(false)
+const saveError = ref('')
 
 const buyAmount = computed(() => (Number(form.quantity) || 0) * (Number(form.buyPrice) || 0))
 const sellAmount = computed(() => (Number(form.quantity) || 0) * (Number(form.sellPrice) || 0))
@@ -41,8 +47,10 @@ async function handleSave() {
   if (!valid) return
 
   saving.value = true
+  saveError.value = ''
   try {
     await emit('save', {
+      transactionId: props.transaction?.transactionId,
       companyName: form.companyName,
       type: form.type,
       quantity: Number(form.quantity),
@@ -54,6 +62,8 @@ async function handleSave() {
       sellAmount: form.alreadySold ? sellAmount.value : 0,
       sellDate: form.alreadySold ? form.sellDate : null,
     })
+  } catch (err) {
+    saveError.value = err.message || 'Failed to save. Please try again.'
   } finally {
     saving.value = false
   }
@@ -61,7 +71,7 @@ async function handleSave() {
 </script>
 
 <template>
-  <BaseModal title="Add Stock / IPO Transaction" @close="emit('close')">
+  <BaseModal :title="isEdit ? `Edit ${transaction.companyName}` : 'Add Stock / IPO Transaction'" @close="emit('close')">
     <div class="form-field">
       <label for="companyName">Company / IPO Name</label>
       <input id="companyName" v-model="form.companyName" type="text" placeholder="e.g. ABC Ltd" />
@@ -129,16 +139,42 @@ async function handleSave() {
       </p>
     </template>
 
+    <p v-if="saveError" class="form-error save-error">{{ saveError }}</p>
+
     <div class="modal-actions">
-      <button class="btn btn-secondary" type="button" @click="emit('close')">Cancel</button>
+      <button class="btn btn-secondary" type="button" :disabled="saving" @click="emit('close')">Cancel</button>
       <button class="btn btn-primary" type="button" :disabled="saving" @click="handleSave">
-        {{ saving ? 'Saving...' : 'Save' }}
+        <span v-if="saving" class="btn-spinner" aria-hidden="true"></span>
+        {{ saving ? 'Saving...' : (isEdit ? 'Save Changes' : 'Save') }}
       </button>
     </div>
   </BaseModal>
 </template>
 
 <style scoped>
+.save-error {
+  margin-top: var(--space-3);
+  text-align: right;
+}
+
+.btn-spinner {
+  display: inline-block;
+  width: 12px;
+  height: 12px;
+  margin-right: var(--space-2);
+  border: 2px solid rgba(255, 255, 255, 0.4);
+  border-top-color: #fff;
+  border-radius: 50%;
+  animation: btn-spin 0.6s linear infinite;
+  vertical-align: -1px;
+}
+
+@keyframes btn-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
 .form-row {
   display: grid;
   grid-template-columns: 1fr 1fr;

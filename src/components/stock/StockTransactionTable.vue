@@ -8,7 +8,7 @@ defineProps({
   activeRows: { type: Array, required: true },
   doneRows: { type: Array, required: true },
 })
-const emit = defineEmits(['sell'])
+const emit = defineEmits(['sell', 'edit'])
 </script>
 
 <template>
@@ -38,7 +38,10 @@ const emit = defineEmits(['sell'])
             <td>{{ formatCurrency(row.buyPrice, { decimals: true }) }}</td>
             <td>{{ formatDisplayDate(row.buyDate) }}</td>
             <td>{{ formatCurrency(row.buyAmount) }}</td>
-            <td><button class="btn btn-text" type="button" @click="emit('sell', row)">Record Sale</button></td>
+            <td class="cell-actions">
+              <button class="btn btn-text" type="button" @click="emit('edit', row)">Edit</button>
+              <button class="btn btn-text" type="button" @click="emit('sell', row)">Record Sale</button>
+            </td>
           </tr>
         </tbody>
       </table>
@@ -64,6 +67,7 @@ const emit = defineEmits(['sell'])
             <th>Margin</th>
             <th>Profit / Loss</th>
             <th>Status</th>
+            <th></th>
           </tr>
         </thead>
         <tbody>
@@ -78,6 +82,7 @@ const emit = defineEmits(['sell'])
             <td :class="row.netProfit >= 0 ? 'text-success' : 'text-danger'">{{ row.profitPercent.toFixed(2) }}%</td>
             <td :class="row.netProfit >= 0 ? 'text-success' : 'text-danger'">{{ formatCurrency(row.netProfit) }}</td>
             <td><StatusBadge :status="row.status" /></td>
+            <td class="cell-actions"><button class="btn btn-text" type="button" @click="emit('edit', row)">Edit</button></td>
           </tr>
         </tbody>
       </table>
@@ -153,5 +158,11 @@ const emit = defineEmits(['sell'])
 .cell-strong {
   font-weight: 600;
   color: var(--color-text);
+}
+
+.cell-actions {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
 }
 </style>

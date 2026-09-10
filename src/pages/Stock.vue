@@ -7,14 +7,20 @@ import StockTransactionForm from '@/components/stock/StockTransactionForm.vue'
 import StockTransactionTable from '@/components/stock/StockTransactionTable.vue'
 import RecordSaleModal from '@/components/stock/RecordSaleModal.vue'
 
-const { loading, errorMessage, activeRows, doneRows, summary, load, addTransaction, recordSale } = useStock()
+const { loading, errorMessage, activeRows, doneRows, summary, load, addTransaction, editTransaction, recordSale } = useStock()
 
 const showAddForm = ref(false)
+const editingTransaction = ref(null)
 const saleModalTransaction = ref(null)
 
 async function handleAddTransaction(payload) {
   await addTransaction(payload)
   showAddForm.value = false
+}
+
+async function handleSaveEditedTransaction(payload) {
+  await editTransaction(editingTransaction.value.transactionId, payload)
+  editingTransaction.value = null
 }
 
 async function handleRecordSale(payload) {
@@ -51,11 +57,23 @@ onMounted(load)
       </div>
 
       <div class="card transactions-section">
-        <StockTransactionTable :active-rows="activeRows" :done-rows="doneRows" @sell="saleModalTransaction = $event" />
+        <StockTransactionTable
+          :active-rows="activeRows"
+          :done-rows="doneRows"
+          @sell="saleModalTransaction = $event"
+          @edit="editingTransaction = $event"
+        />
       </div>
     </template>
 
     <StockTransactionForm v-if="showAddForm" @close="showAddForm = false" @save="handleAddTransaction" />
+
+    <StockTransactionForm
+      v-if="editingTransaction"
+      :transaction="editingTransaction"
+      @close="editingTransaction = null"
+      @save="handleSaveEditedTransaction"
+    />
 
     <RecordSaleModal
       v-if="saleModalTransaction"

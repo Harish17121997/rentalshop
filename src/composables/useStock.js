@@ -45,6 +45,11 @@ export function useStock() {
     await load()
   }
 
+  async function editTransaction(transactionId, payload) {
+    await updateStockTransaction(transactionId, payload)
+    await load()
+  }
+
   async function recordSale(transactionId, { sellPrice, sellAmount, sellDate }) {
     await updateStockTransaction(transactionId, { sellPrice, sellAmount, sellDate })
     await load()
@@ -59,6 +64,7 @@ export function useStock() {
     summary,
     load,
     addTransaction,
+    editTransaction,
     recordSale,
   }
 }

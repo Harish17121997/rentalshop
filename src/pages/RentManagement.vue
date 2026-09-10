@@ -17,10 +17,11 @@ const expandedUnitId = ref(null)
 const showAddHouseForm = ref(false)
 const showAddEntry = ref(false)
 const editingUnit = ref(null)
+const editingPayment = ref(null)
 
 const period = { month: currentMonth(), year: currentYear() }
 
-const { loading, errorMessage, units, historyByUnit, loadUnits, loadHistory, addUnit, editUnit, addEntry } = useRent()
+const { loading, errorMessage, units, historyByUnit, loadUnits, loadHistory, addUnit, editUnit, addEntry, editEntry } = useRent()
 
 const filteredUnits = computed(() => units.value.filter((u) => u.category === CATEGORY_BY_TAB[activeTab.value]))
 
@@ -35,6 +36,11 @@ const totals = computed(() => {
 
 function refresh() {
   loadUnits(period)
+}
+
+function selectTab(tab) {
+  activeTab.value = tab
+  refresh()
 }
 
 async function toggleRow(unit) {
@@ -61,6 +67,11 @@ async function handleSaveEntry(payload) {
   showAddEntry.value = false
 }
 
+async function handleSaveEditedPayment(payload) {
+  await editEntry(editingPayment.value, payload, period)
+  editingPayment.value = null
+}
+
 onMounted(refresh)
 </script>
 
@@ -83,7 +94,7 @@ onMounted(refresh)
         type="button"
         class="tab-btn"
         :class="{ active: activeTab === tab }"
-        @click="activeTab = tab"
+        @click="selectTab(tab)"
       >
         {{ tab }}
       </button>
@@ -117,6 +128,7 @@ onMounted(refresh)
           :history="historyByUnit[unit.unitId] || []"
           @toggle="toggleRow(unit)"
           @edit="editingUnit = unit"
+          @edit-payment="editingPayment = $event"
         />
       </div>
     </template>
@@ -131,6 +143,14 @@ onMounted(refresh)
       :initial-unit-id="filteredUnits[0]?.unitId"
       @close="showAddEntry = false"
       @save="handleSaveEntry"
+    />
+
+    <AddRentEntryModal
+      v-if="editingPayment"
+      :units="units"
+      :payment="editingPayment"
+      @close="editingPayment = null"
+      @save="handleSaveEditedPayment"
     />
   </div>
 </template>

@@ -16,6 +16,7 @@ const form = reactive({
 })
 const fieldErrors = ref({})
 const saving = ref(false)
+const saveError = ref('')
 
 const sellAmount = computed(() => (Number(props.transaction.quantity) || 0) * (Number(form.sellPrice) || 0))
 const estimatedProfit = computed(() => sellAmount.value - (Number(props.transaction.buyAmount) || 0))
@@ -29,12 +30,15 @@ async function handleSave() {
   if (!valid) return
 
   saving.value = true
+  saveError.value = ''
   try {
     await emit('save', {
       sellPrice: Number(form.sellPrice),
       sellAmount: sellAmount.value,
       sellDate: form.sellDate,
     })
+  } catch (err) {
+    saveError.value = err.message || 'Failed to save. Please try again.'
   } finally {
     saving.value = false
   }
@@ -65,9 +69,12 @@ async function handleSave() {
       <strong :class="estimatedProfit >= 0 ? 'text-success' : 'text-danger'">{{ formatCurrency(estimatedProfit) }}</strong>
     </p>
 
+    <p v-if="saveError" class="form-error save-error">{{ saveError }}</p>
+
     <div class="modal-actions">
-      <button class="btn btn-secondary" type="button" @click="emit('close')">Cancel</button>
+      <button class="btn btn-secondary" type="button" :disabled="saving" @click="emit('close')">Cancel</button>
       <button class="btn btn-primary" type="button" :disabled="saving" @click="handleSave">
+        <span v-if="saving" class="btn-spinner" aria-hidden="true"></span>
         {{ saving ? 'Saving...' : 'Save Sale' }}
       </button>
     </div>
@@ -75,6 +82,29 @@ async function handleSave() {
 </template>
 
 <style scoped>
+.save-error {
+  margin-top: var(--space-3);
+  text-align: right;
+}
+
+.btn-spinner {
+  display: inline-block;
+  width: 12px;
+  height: 12px;
+  margin-right: var(--space-2);
+  border: 2px solid rgba(255, 255, 255, 0.4);
+  border-top-color: #fff;
+  border-radius: 50%;
+  animation: btn-spin 0.6s linear infinite;
+  vertical-align: -1px;
+}
+
+@keyframes btn-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
 .buy-line {
   font-size: var(--font-size-sm);
   margin-bottom: var(--space-4);

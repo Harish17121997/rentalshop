@@ -11,7 +11,7 @@ const props = defineProps({
   expanded: { type: Boolean, default: false },
   history: { type: Array, default: () => [] },
 })
-const emit = defineEmits(['toggle', 'edit'])
+const emit = defineEmits(['toggle', 'edit', 'edit-payment'])
 
 const historyRows = computed(() =>
   props.history
@@ -89,7 +89,17 @@ const historyRows = computed(() =>
           <div v-for="row in historyRows" :key="row.paymentId" class="payment-row">
             <div class="payment-row-top">
               <span class="payment-month">{{ getMonthName(row.month, { short: true }) }} {{ row.year }}</span>
-              <StatusBadge :status="row.status" />
+              <div class="payment-row-top-actions">
+                <StatusBadge :status="row.status" />
+                <button
+                  v-if="row.paidDate"
+                  class="btn btn-text btn-edit"
+                  type="button"
+                  @click="emit('edit-payment', row)"
+                >
+                  Edit
+                </button>
+              </div>
             </div>
 
             <div class="payment-row-grid">
@@ -285,6 +295,12 @@ const historyRows = computed(() =>
   font-weight: 600;
   font-size: var(--font-size-base);
   color: var(--color-text);
+}
+
+.payment-row-top-actions {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
 }
 
 .payment-row-grid {
